@@ -41,5 +41,5 @@ jobs:
           KOBO_PASSWORD: ${{ secrets.KOBO_PASSWORD }}
           AGOL_USERNAME: ${{ secrets.AGOL_USERNAME }}
           AGOL_PASSWORD: ${{ secrets.AGOL_PASSWORD }}
-        run: 
+        run: | 
           python kobotoagol/kobotoagol.py
