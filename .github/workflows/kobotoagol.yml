@@ -36,4 +36,5 @@ jobs:
           AGOL_USERNAME: ${{ secrets.AGOL_USERNAME }}
           AGOL_PASSWORD: ${{ secrets.AGOL_PASSWORD }}
         run: |
-          python kobotoagol.py
+          ls -R  # mostra toda a estrutura de pastas, pra confirmar
+          python ./kobotoagol_v01/kobotoagol.py || python ./kobotoagol.py
