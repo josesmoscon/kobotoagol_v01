@@ -11,7 +11,7 @@ from arcgis.features import FeatureSet, GeoAccessor
 from arcgis.geometry import Geometry
 
 #Import external files
-governorate_municipality = gpd.read_file("C:/Users/joses/Desktop/UNEP_Gaza_Governorate_Municipality_Singleparts_POINTS.gpkg")
+governorate_municipality = gpd.read_file("data/UNEP_Gaza_Governorate_Municipality_Singleparts_POINTS.gpkg")
 governorate_municipality = governorate_municipality.to_crs(epsg=4326)
 governorate_municipality.crs
 
