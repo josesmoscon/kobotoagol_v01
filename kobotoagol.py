@@ -159,7 +159,7 @@ for _, row in gdf_exploded.iterrows():
 gdf_exploded['unique_'] = unique_flags
 
 #Run locally and upload manually to ArcGIS the first time!
-gdf_exploded.to_file("C:/Users/joses/Desktop/DWG_Gaza_Fuel_Requests_Responses.gpkg")
+# gdf_exploded.to_file("DWG_Gaza_Fuel_Requests_Responses.gpkg")
 
 #### UPDATE DATA IN ARCGIS
 
