@@ -42,4 +42,4 @@ jobs:
           AGOL_USERNAME: ${{ secrets.AGOL_USERNAME }}
           AGOL_PASSWORD: ${{ secrets.AGOL_PASSWORD }}
         run: |
-          python _JOBS/Kura/operacao/gaza_2/.github/workflows/kobotoagol.yml
+          python C:/Users/joses/Documents/ONU/PyScripts/_JOBS/Kura/operacao/gaza_2/.github/workflows/kobotoagol.yml
