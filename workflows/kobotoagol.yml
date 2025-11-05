@@ -1,10 +1,9 @@
 name: Kobo to AGOL Automation
 
-# Agendamento + possibilidade de disparo manual
 on:
   schedule:
-    - cron: '0 9 * * *'   # rodar diariamente às 09:00 UTC (ajuste conforme desejar)
-  workflow_dispatch:       # permite executar manualmente no GitHub
+    - cron: '0 9 * * *'   # Diariamente às 09:00 UTC (06:00 BRT)
+  workflow_dispatch:       # Permite execução manual
 
 jobs:
   update_agol:
@@ -12,7 +11,7 @@ jobs:
     timeout-minutes: 60
 
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -20,20 +19,15 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+      - name: Install system dependencies (GDAL, etc.)  # opcional, necessário se geopandas falhar
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gdal-bin libgdal-dev
 
-      - name: Install dependencies
+      - name: Install Python dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          # fallback: install some known packages (ajuste conforme necessário)
-          pip install geopandas pandas arcgis requests openpyxl
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; else pip install geopandas pandas arcgis requests openpyxl; fi
 
       - name: Run Kobo → AGOL script
         env:
@@ -41,5 +35,5 @@ jobs:
           KOBO_PASSWORD: ${{ secrets.KOBO_PASSWORD }}
           AGOL_USERNAME: ${{ secrets.AGOL_USERNAME }}
           AGOL_PASSWORD: ${{ secrets.AGOL_PASSWORD }}
-        run: | 
+        run: |
           python kobotoagol/kobotoagol.py
