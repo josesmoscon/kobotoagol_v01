@@ -1,0 +1,45 @@
+name: Kobo to AGOL Automation
+
+# Agendamento + possibilidade de disparo manual
+on:
+  schedule:
+    - cron: '0 9 * * *'   # rodar diariamente às 09:00 UTC (ajuste conforme desejar)
+  workflow_dispatch:       # permite executar manualmente no GitHub
+
+jobs:
+  update_agol:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # fallback: install some known packages (ajuste conforme necessário)
+          pip install geopandas pandas arcgis requests openpyxl
+
+      - name: Run Kobo → AGOL script
+        env:
+          KOBO_USERNAME: ${{ secrets.KOBO_USERNAME }}
+          KOBO_PASSWORD: ${{ secrets.KOBO_PASSWORD }}
+          AGOL_USERNAME: ${{ secrets.AGOL_USERNAME }}
+          AGOL_PASSWORD: ${{ secrets.AGOL_PASSWORD }}
+        run: |
+          python kobotoagol.py
