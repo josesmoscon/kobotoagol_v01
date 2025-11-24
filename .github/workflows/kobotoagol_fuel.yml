@@ -1,4 +1,4 @@
-name: Kobo to AGOL Automation
+name: Kobo to AGOL Automation - Fuel
 
 on:
   schedule:
@@ -36,4 +36,4 @@ jobs:
           AGOL_USERNAME: ${{ secrets.AGOL_USERNAME }}
           AGOL_PASSWORD: ${{ secrets.AGOL_PASSWORD }}
         run: |
-          python kobotoagol.py
+          python kobotoagol_fuel.py
