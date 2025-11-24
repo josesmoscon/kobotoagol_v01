@@ -26,7 +26,7 @@ KOBO_PASSWORD = "k0b0Senha"
 export_token = "f72722c6ffe97db14144325853528a4b7a1c059b"
 
 #Fuel Request API endpoint
-kobo_api_url = "https://kf.kobotoolbox.org/api/v2/assets/aYyrjnacEdnBdZnXaxMcG5/export-settings/espkg4R8qBsuTeNUAUUmEzq"
+kobo_api_url = "https://kf.kobotoolbox.org/api/v2/assets/aYyrjnacEdnBdZnXaxMcG5/export-settings/esDx7MdQw4NsFeqtBy4iNtX"
 
 def getKoboForm(url):
     # Create a session with authentication
@@ -96,7 +96,7 @@ kobo_data_exploded = standardize(kobo_data_exploded)
 
 # Faz o join com o gdf, mantendo todos os municípios originais
 
-gdf_filtrado = governorate_municipality.merge(kobo_data_exploded, on='Gov_Mun', how='inner')
+gdf_filtrado = governorate_municipality.merge(kobo_data_exploded, on='Gov_Mun', how='right')
 
 #Handle columns so they are not modified by arcgis when uploaded
 def makeArcGISfriendly(df):
