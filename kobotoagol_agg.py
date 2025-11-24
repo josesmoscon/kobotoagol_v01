@@ -15,11 +15,6 @@ governorate_municipality = gpd.read_file("UNEP_Gaza_Governorate_Municipality_Sin
 governorate_municipality = governorate_municipality.to_crs(epsg=4326)
 governorate_municipality.crs
 
-#Read this to know more about how Kobo handles synchronous exports and where to find the right url
-#https://support.kobotoolbox.org/synchronous_exports.html
-
-#### FETCH KOBO DATA
-
 # Authentication credentials
 KOBO_USERNAME = "guilherme_iablonovski"
 KOBO_PASSWORD = "k0b0Senha"
@@ -98,6 +93,9 @@ kobo_data_exploded = standardize(kobo_data_exploded)
 
 gdf_filtrado = governorate_municipality.merge(kobo_data_exploded, on='Gov_Mun', how='right')
 
+# Create string column to 'submission_time'
+gdf_filtrado['hora_subm'] = gdf_filtrado['_submission_time'].astype(str)
+
 #Handle columns so they are not modified by arcgis when uploaded
 def makeArcGISfriendly(df):
     df.columns = df.columns.str.replace(r"[ ]", "_", regex=True)
@@ -158,18 +156,16 @@ for _, row in gdf_exploded.iterrows():
 
 gdf_exploded['unique_'] = unique_flags
 
-
 # Clean columns
 gdf_colunas = gdf_exploded[['objectid', 'neighborhood', 'municipality', 'governorate', 'arabicname', 'governate_name',
        'municipality_name', 'neighborhood_name', 'location_gdf', 'gov_mun',
-       'geometry', '',  'requesting_agency', 'please_specify', 'contact_person_name', 'contact_person_phone_number',
+       'geometry', 'requesting_agency', 'please_specify', 'contact_person_name', 'contact_person_phone_number',
        'contact_person_email_address', 'location_of_planned_interventio',
        'intended_use_of_recycled_materi', 'please_specify_1',
-       'requested_quantity', 'specify_the_measurement_unit',
+       'requested_quantity', 'specify_the_measurement_unit', 'hora_subm',
        'f_id', 'f_uuid', 'submission_time', 'status', 'submitted_by', 'version__', 'tags', 'index',]]
 
-# Create string column to 'submission_time'
-gdf_colunas['hora_subm'] = gdf_colunas['submission_time'].astype(str)
+
 
 # Repair columns names
 gdf_colunas.columns = (
@@ -191,9 +187,6 @@ gdf_colunas = gdf_colunas.rename(columns={
 # Limitar cada nome a 31 caracteres
 gdf_colunas.columns = [c[:31] for c in gdf_colunas.columns]
 
-#Run locally and upload manually to ArcGIS the first time!
-# gdf_exploded.to_file("DWG_Gaza_Agg_for_Recycling_v08.gpkg")
-
 #### UPDATE DATA IN ARCGIS
 
 #Connect to the ArcGIS Enterprise portal
@@ -203,11 +196,10 @@ AGOL_PASSWORD = 'R&Runit2024'
 gis = GIS('https://wesrmapportal.unep.org/portal/', AGOL_USERNAME, AGOL_PASSWORD)
 
 # Access the feature-layer through its URL
-file = "https://wesrmapportal.unep.org/arcgis/rest/services/Hosted/DWG_Gaza_Agg_for_Recycling_v08/FeatureServer"
+file = "https://wesrmapportal.unep.org/arcgis/rest/services/Hosted/DWG_Gaza_Aggregate_for_Recycling/FeatureServer"
 
 # Access the feature-layer through its URL
-agg_file = 'DWG_Gaza_Agg_for_Recycling_v08'
-
+agg_file = 'DWG_Gaza_Aggregate_for_Recycling'
 
 def searchArcgis(keyword):
     if not isinstance(keyword, str):
