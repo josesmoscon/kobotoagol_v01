@@ -26,7 +26,7 @@ KOBO_PASSWORD = "k0b0Senha"
 export_token = "f72722c6ffe97db14144325853528a4b7a1c059b"
 
 #Fuel Request API endpoint
-kobo_api_url = "https://kf.kobotoolbox.org/api/v2/assets/aYyrjnacEdnBdZnXaxMcG5/export-settings/esDx7MdQw4NsFeqtBy4iNtX"
+kobo_api_url = "https://kf.kobotoolbox.org/api/v2/assets/aYyrjnacEdnBdZnXaxMcG5/export-settings/eskV2HM9SKSUw6pB93aZqWK"
 
 def getKoboForm(url):
     # Create a session with authentication
