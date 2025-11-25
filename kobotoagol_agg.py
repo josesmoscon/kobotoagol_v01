@@ -21,7 +21,7 @@ KOBO_PASSWORD = "k0b0Senha"
 export_token = "f72722c6ffe97db14144325853528a4b7a1c059b"
 
 #Recycled Aggregate Request API endpoint
-kobo_api_url = "https://kf.kobotoolbox.org/api/v2/assets/akPnoN3KN4wL7TyuPzHGLu/export-settings/estEZQ8pe5N4cdfZ4zvnd6s"
+kobo_api_url = "https://kf.kobotoolbox.org/api/v2/assets/akPnoN3KN4wL7TyuPzHGLu/export-settings/es5Y32GjEiU7qFtbAuei965"
 
 def getKoboForm(url):
     # Create a session with authentication
