@@ -94,7 +94,11 @@ kobo_data_exploded = standardize(kobo_data_exploded)
 gdf_filtrado = governorate_municipality.merge(kobo_data_exploded, on='Gov_Mun', how='right')
 
 # Create string column to 'submission_time'
-gdf_filtrado['hora_subm'] = gdf_filtrado['_submission_time'].astype(str)
+gdf_filtrado["hora_subm"] = (
+    gdf_filtrado["_submission_time"]
+    .astype("datetime64[ns]")
+    .dt.strftime("%Y-%m-%d %H:%M")   # Ou outro formato que preferir
+)
 
 #Handle columns so they are not modified by arcgis when uploaded
 def makeArcGISfriendly(df):
@@ -273,4 +277,4 @@ cols_problema = [
 gdf_colunas = gdf_colunas.drop(columns=cols_problema, errors="ignore").copy()
 gdf_colunas["SHAPE"] = gdf_colunas.geometry
 
-updateFeature(search_agg, gdf_exploded)
+updateFeature(search_agg, gdf_colunas)
