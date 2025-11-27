@@ -160,6 +160,12 @@ for _, row in gdf_exploded.iterrows():
 
 gdf_exploded['unique_'] = unique_flags
 
+gdf_exploded["hora_subm"] = (
+    gdf_exploded["submission_time"]
+    .astype("datetime64[ns]")
+    .dt.strftime("%Y-%m-%d %H:%M")   # String ID para hora de submissão
+)
+
 #Run locally and upload manually to ArcGIS the first time!
 # gdf_exploded.to_file("DWG_Gaza_Fuel_Requests_Responses.gpkg")
 
@@ -172,11 +178,10 @@ AGOL_PASSWORD = 'R&Runit2024'
 gis = GIS('https://wesrmapportal.unep.org/portal/', AGOL_USERNAME, AGOL_PASSWORD)
 
 # Access the feature-layer through its URL
-file = "https://wesrmapportal.unep.org/arcgis/rest/services/Hosted/DWG_Gaza_Fuel_Requests_Responses/FeatureServer"
+file = "https://wesrmapportal.unep.org/arcgis/rest/services/Hosted/DWG_Gaza_Fuel_Requests_Responses_V02/FeatureServer"
 
 # Access the feature-layer through its URL
-fuel_file = 'DWG_Gaza_Fuel_RequestsResponses'
-
+fuel_file = 'DWG_Gaza_Fuel_Requests_Responses_V02'
 
 def searchArcgis(keyword):
     if not isinstance(keyword, str):
@@ -215,7 +220,5 @@ def updateFeature(search_results, gdf):
     result = layer.edit_features(adds=fs.features)
     print("Result:", result)
     return(result)
-
-gdf_exploded['hora_subm'] = gdf_exploded['submission_time'].astype(str) # Cria coluna de ID por hora de submissao (str)
 
 updateFeature(search_fuel, gdf_exploded)
