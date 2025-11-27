@@ -98,7 +98,7 @@ kobo_data_exploded = standardize(kobo_data_exploded)
 
 gdf_filtrado = governorate_municipality.merge(kobo_data_exploded, on='Gov_Mun', how='right')
 
-gdf_filtrado['hora_subm'] = gdf_filtrado['_submission_time'].astype(str) # Cria coluna de ID por hora de submissao (str)
+
 
 #Handle columns so they are not modified by arcgis when uploaded
 def makeArcGISfriendly(df):
@@ -215,5 +215,7 @@ def updateFeature(search_results, gdf):
     result = layer.edit_features(adds=fs.features)
     print("Result:", result)
     return(result)
+
+gdf_exploded['hora_subm'] = gdf_exploded['submission_time'].astype(str) # Cria coluna de ID por hora de submissao (str)
 
 updateFeature(search_fuel, gdf_exploded)
