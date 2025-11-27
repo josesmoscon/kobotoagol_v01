@@ -98,6 +98,8 @@ kobo_data_exploded = standardize(kobo_data_exploded)
 
 gdf_filtrado = governorate_municipality.merge(kobo_data_exploded, on='Gov_Mun', how='right')
 
+gdf_filtrado['hora_subm'] = gdf_filtrado['_submission_time'].astype(str) # Cria coluna de ID por hora de submissao (str)
+
 #Handle columns so they are not modified by arcgis when uploaded
 def makeArcGISfriendly(df):
     df.columns = df.columns.str.replace(r"[ ]", "_", regex=True)

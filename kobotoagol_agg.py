@@ -239,4 +239,24 @@ def updateFeature(search_results, gdf):
     print("Result:", result)
     return(result)
 
+# Correção de colunas
+# Campos que devem ser double
+double_fields = ["please_specify_1", "empty_field"]
+
+for col in double_fields:
+    if col in gdf_colunas.columns:
+        gdf_colunas[col] = pd.to_numeric(gdf_colunas[col], errors="coerce")
+
+# Campo que precisa ser string
+if "contact_person_phone_number" in gdf_colunas.columns:
+    gdf_colunas["contact_person_phone_number"] = (
+        gdf_colunas["contact_person_phone_number"].astype(str)
+    )
+
+# Campos big integer → garantir int
+bigint_fields = ["requested_quantity", "index", "f_id"]
+for col in bigint_fields:
+    if col in gdf_colunas.columns:
+        gdf_colunas[col] = gdf_colunas[col].astype("Int64")
+
 updateFeature(search_agg, gdf_exploded)
