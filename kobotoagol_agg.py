@@ -262,19 +262,7 @@ bigint_fields = ["requested_quantity", "index", "f_id"]
 for col in bigint_fields:
     if col in gdf_colunas.columns:
         gdf_colunas[col] = gdf_colunas[col].astype("Int64")
-  
-  
-# Apaga colunas que causam conflito no ArcGIS      
-cols_problema = [
-    "please_specify_1",
-    "requested_quantity",
-    "f_id",
-    "submitted_by",
-    "tags",
-    "index"
-]
 
-gdf_colunas = gdf_colunas.drop(columns=cols_problema, errors="ignore").copy()
 gdf_colunas["SHAPE"] = gdf_colunas.geometry
 
 updateFeature(search_agg, gdf_colunas)
